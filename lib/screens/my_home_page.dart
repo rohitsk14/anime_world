@@ -48,17 +48,19 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
-      body: dataFetched
-          ? Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  buildContainerForCategories(),
-                  buildCards(),
-                ],
-              ),
-            )
-          : Center(child: CircularProgressIndicator()),
+      body: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            buildContainerForCategories(),
+            dataFetched == true
+                ? buildCards()
+                : Center(
+                    child: CircularProgressIndicator(),
+                  ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -151,8 +153,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     setState(() {
                       isSelected = index;
                       selectedCategory = categories[index];
-                      fetchCards();
+                      dataFetched = false;
+                      initialpage = 0;
                     });
+                    fetchCards();
                   },
                   child: Column(
                     children: <Widget>[
@@ -184,11 +188,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void fetchCards() async {
-    final response = await http
-        .get('https://api.jikan.moe/v3/top/anime/1/$selectedCategory');
+//    String cat = selectedCategory;
+    print(selectedCategory);
+    String url = 'https://api.jikan.moe/v3/top/anime/1/$selectedCategory';
+    final response = await http.get(url);
     final jsonResponse = json.decode(response.body);
     if (response.statusCode == 200) {
-      print("fetched");
+      print('f');
       setState(() {
         dataFetched = true;
         myModels = (jsonResponse["top"] as List)

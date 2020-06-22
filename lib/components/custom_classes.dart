@@ -6,7 +6,7 @@ class AnimeListClass {
   final int episodes;
   final String start_date;
   final String end_date;
-  final double score;
+  final String score;
 
   AnimeListClass(
       {this.id,
@@ -27,7 +27,7 @@ class AnimeListClass {
       episodes: json['episodes'],
       start_date: json['start_date'],
       end_date: json['end_date'],
-      score: json['score'],
+      score: json['score'].toString() == null ? 'NA' : json['score'].toString(),
     );
   }
 }
@@ -38,13 +38,13 @@ class TheAnimeClass {
   final String title;
   final String english_title;
   final String image_url;
-  final int episodes;
+  final String episodes;
   final String synopsis;
   final String status;
   final String aired;
   final String rating;
-  final int favorites;
-  final double score;
+  final String favorites;
+  final String score;
   final List<GenreClass> genres;
 
   TheAnimeClass(
@@ -63,25 +63,29 @@ class TheAnimeClass {
       this.score});
 
   factory TheAnimeClass.fromJson(Map<String, dynamic> json) {
-    print('1');
     var genreObjsJson = json['genres'] as List;
     List<GenreClass> _Generes =
         genreObjsJson.map((tagJson) => GenreClass.fromJson(tagJson)).toList();
-    print('2');
     return TheAnimeClass(
       id: json['mal_id'],
       rank: json['rank'],
-      title: json['title'],
-      english_title: json['title_english'],
-      image_url: json['image_url'],
-      episodes: json['episodes'],
-      synopsis: json['synopsis'],
-      status: json['status'],
-      aired: json['aired']['string'],
-      rating: json['rating'],
-      favorites: json['favorites'],
+      title: json['title'] == null ? 'NA' : json['title'].toString(),
+      english_title: json['title_english'] == null
+          ? 'NA'
+          : json['title_english'].toString(),
+      image_url:
+          json['image_url'] == null ? 'NA' : json['image_url'].toString(),
+      episodes: json['episodes'] == null ? 'NA' : json['episodes'].toString(),
+      synopsis: json['synopsis'] == null ? 'NA' : json['synopsis'].toString(),
+      status: json['status'] == null ? 'NA' : json['status'].toString(),
+      aired: json['aired']['string'] == null
+          ? 'NA'
+          : json['aired']['string'].toString(),
+      rating: json['rating'] == null ? 'NA' : json['rating'].toString(),
+      favorites:
+          json['favorites'] == null ? 'NA' : json['favorites'].toString(),
       genres: _Generes,
-      score: json['score'],
+      score: json['score'] == null ? 'NA' : json['score'].toString(),
     );
   }
 }

@@ -98,7 +98,7 @@ class _TheAnimeState extends State<TheAnime> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    Anime.score.toString(),
+                                    Anime.score,
                                     style: kLabelText,
                                   ),
                                   SizedBox(
